@@ -39,7 +39,7 @@ jobs:
 
       # Step 5: Install dependencies using pnpm
       - name: Install Dependencies
-        run: pnpm install
+        run: pnpm install --link-workspace-packages
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
