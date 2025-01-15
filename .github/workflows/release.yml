@@ -3,37 +3,54 @@ name: Release
 on:
   push:
     branches:
+      - issue-17-configure-ci-cd
       - main
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   release:
-    name: Release
+    name: Test Changeset and Publish
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+      pull-requests: write
+
     steps:
+      # Step 1: Checkout repository
       - name: Checkout Repo
         uses: actions/checkout@v4
 
+      # Step 2: Setup Node.js and pnpm
       - name: Setup Node.js 20.x
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: pnpm
 
+      - name: Setup pnpm
+        run: corepack enable pnpm
+
+      # Step 3: Install dependencies
       - name: Install Dependencies
-        run: yarn
+        run: pnpm install
 
-      - name: Create Release Pull Request or Publish to npm
-        id: changesets
-        uses: changesets/action@v1
-        with:
-          # This expects you to have a script called release which does a build for your packages and calls changeset publish
-          publish: yarn release
+      # Step 4: Test Changeset with a dry-run
+      - name: Test Changeset with pnpm changeset publish --dry-run
+        run: pnpm changeset publish --dry-run
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Send a Slack notification if a publish happens
-        if: steps.changesets.outputs.published == 'true'
-        # You can do something when a publish happens.
-        run: my-slack-bot send-notification --message "A new version of ${GITHUB_REPOSITORY} was published!"
+      # # Step 4: Create changeset or publish packages
+      # - name: Create Release Pull Request or Publish to npm
+      #   id: changesets
+      #   uses: changesets/action@v1
+      #   with:
+      #    
+      #     publish: pnpm release
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+     
