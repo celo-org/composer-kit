@@ -27,26 +27,28 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: yarn
 
       # Step 3: Enable Corepack
       - name: Enable Corepack
         run: corepack enable
 
-      # Step 4: Install dependencies using Yarn via Corepack
-      - name: Install Dependencies
-        run: yarn install
+      # Step 4: Activate the Correct pnpm Version
+      - name: Use pnpm
+        run: corepack prepare pnpm@8.15.6 --activate
 
-      # Step 5: Test Changeset with a dry-run
-      - name: Test Changeset with yarn changeset publish --dry-run
-        run: yarn changeset publish --dry-run
+      # Step 5: Install dependencies using pnpm
+      - name: Install Dependencies
+        run: pnpm install
+
+      # Step 6: Test Changeset with a dry-run
+      - name: Test Changeset with pnpm changeset publish --dry-run
+        run: pnpm changeset publish --dry-run
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      # Step 6: Publish to npm (Uncomment for real publish after testing)
+      # Step 7: Publish to npm (Uncomment for real publish after testing)
       # - name: Publish to npm
-      #   run: yarn changeset publish
+      #   run: pnpm changeset publish
       #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      #     GITHUB_TOKEN: $
