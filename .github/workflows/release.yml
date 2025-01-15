@@ -39,6 +39,8 @@ jobs:
       # Step 5: Install dependencies using pnpm
       - name: Install Dependencies
         run: pnpm install
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       # Step 6: Test Changeset with a dry-run
       - name: Test Changeset with pnpm changeset publish --dry-run
