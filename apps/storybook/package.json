@@ -1,5 +1,5 @@
 {
-  "name": "@nhyira09/storybook",
+  "name": "@composer-kit/storybook",
   "version": "0.0.0",
   "type": "module",
   "private": true,
