@@ -7,7 +7,7 @@ on:
       - main
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
- 
+
 jobs:
   release:
     name: Test Changeset and Publish
@@ -22,26 +22,24 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-      # Step 2: Setup Node.js and pnpm
+      # Step 2: Setup Node.js and Yarn
       - name: Setup Node.js 20.x
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: pnpm
+          cache: yarn
 
-      - name: Setup pnpm
-        run: corepack enable pnpm
-
-      # Step 3: Install dependencies
+      # Step 3: Install dependencies with Yarn
       - name: Install Dependencies
-        run: pnpm install
+        run: yarn install
 
       # Step 4: Test Changeset with a dry-run
-      - name: Test Changeset with pnpm changeset publish --dry-run
-        run: pnpm changeset publish --dry-run
+      - name: Test Changeset with yarn changeset publish --dry-run
+        run: yarn changeset publish --dry-run
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
 
       # # Step 4: Create changeset or publish packages
       # - name: Create Release Pull Request or Publish to npm
