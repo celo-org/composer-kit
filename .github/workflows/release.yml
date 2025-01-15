@@ -22,33 +22,31 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-      # Step 2: Setup Node.js and Yarn
+      # Step 2: Setup Node.js
       - name: Setup Node.js 20.x
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: yarn
 
-      # Step 3: Install dependencies with Yarn
+      # Step 3: Enable Corepack
+      - name: Enable Corepack
+        run: corepack enable
+
+      # Step 4: Install dependencies using Yarn via Corepack
       - name: Install Dependencies
         run: yarn install
 
-      # Step 4: Test Changeset with a dry-run
+      # Step 5: Test Changeset with a dry-run
       - name: Test Changeset with yarn changeset publish --dry-run
         run: yarn changeset publish --dry-run
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-
-      # # Step 4: Create changeset or publish packages
-      # - name: Create Release Pull Request or Publish to npm
-      #   id: changesets
-      #   uses: changesets/action@v1
-      #   with:
-      #    
-      #     publish: pnpm release
+      # Step 6: Publish to npm (Uncomment for real publish after testing)
+      # - name: Publish to npm
+      #   run: yarn changeset publish
       #   env:
       #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       #     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-     
