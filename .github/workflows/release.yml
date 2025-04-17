@@ -1,5 +1,4 @@
 name: Release
-
 on:
   push:
     branches:
@@ -9,31 +8,97 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   release:
-    name: Release
+    name: Prepare or Publish
+    environment: dev
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+      pull-requests: write
+    
+    outputs: 
+      publishedPackages: ${{ steps.changesets.outputs.publishedPackages }}
+      published: ${{ steps.changesets.outputs.published }}
+
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
+
+      # Retrieve the NPM_TOKEN securely from Akeyless.
+      - name: Akeyless Get Secrets
+        id: get_auth_token
+        uses: docker://us-west1-docker.pkg.dev/devopsre/akeyless-public/akeyless-action:latest
+        with:
+          api-url: <api-url>
+          access-id: <access-id>
+          static-secrets: '{"/static-secrets/NPM/npm-publish-token":"NPM_TOKEN"}'
 
       - name: Setup Node.js 20.x
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Install Dependencies
-        run: yarn
+      - name: Enable Corepack
+        run: corepack enable
 
-      - name: Create Release Pull Request or Publish to npm
+      - name: Use pnpm
+        run: corepack prepare pnpm@8.15.6 --activate
+
+      - name: Install Dependencies
+        run: pnpm install --link-workspace-packages
+        env:
+          NPM_TOKEN: ${{ env.NPM_TOKEN }}
+
+      # Run Changeset to publish packages and version updates.
+      - name: changesets
         id: changesets
         uses: changesets/action@v1
-        with:
-          # This expects you to have a script called release which does a build for your packages and calls changeset publish
-          publish: yarn release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ env.NPM_TOKEN }}
+        with:
+          publish: pnpm release
+          version: pnpm version-packages
 
-      - name: Send a Slack notification if a publish happens
-        if: steps.changesets.outputs.published == 'true'
-        # You can do something when a publish happens.
-        run: my-slack-bot send-notification --message "A new version of ${GITHUB_REPOSITORY} was published!"
+  prepare:
+    name: Format Output for Install
+    if: needs.release.outputs.published
+    needs: release 
+    runs-on: ubuntu-latest
+    container:
+      image: node:20-bullseye
+    outputs:  
+      result: "${{ steps.map.outputs.output }}"
+    steps:              
+      - name: Install jq
+        if: needs.release.outputs.published
+        uses: dcarbone/install-jq-action@v3.0.1
+      - name: Format Published Packages Array
+        if: needs.release.outputs.published
+        uses: cloudposse/github-action-jq@main
+        id: map
+        with:
+          compact: true
+          raw-output: true
+          input: '${{ needs.release.outputs.publishedPackages }}'
+          script: |-
+            map("\(.name)@\(.version)")
+
+  install-released-packages:
+    name: Install Released Packages
+    needs: [prepare, release]
+    if: needs.release.outputs.published
+    runs-on: ubuntu-latest
+    container:
+      image: node:20-bullseye
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix:
+        package: ${{fromJson(needs.prepare.outputs.result)}}
+    steps:
+      - name: Install Dependencies
+        run: apt update && apt install -y libusb-1.0-0-dev libudev-dev
+      - name: Installing ${{ matrix.package }} package
+        run: pnpm add ${{ matrix.package }} --global
+     # Add tests here to ensure the installed packages work as expected.
