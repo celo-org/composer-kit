@@ -1,4 +1,5 @@
 import { Loader2 } from "lucide-react";
+import QRCode from "react-qr-code";
 import {
   Dialog,
   DialogContent,
@@ -42,6 +43,17 @@ export function PaymentDialog({
           <div>
             <p className="text-sm font-medium">Recipient</p>
             <p className="mt-1 break-all">{recipientAddress}</p>
+          </div>
+
+          <div
+            className="border border-gray-200 rounded-lg p-4"
+          >
+            <QRCode
+              size={356}
+              style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+              value={recipientAddress}
+              viewBox={`0 0 256 256`}
+            />
           </div>
         </div>
 
