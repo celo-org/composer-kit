@@ -1,6 +1,6 @@
-# @composer-kit/ui
+# Composer Kit 
 
-Composer Kit UI is a **ready-to-use React component library** designed specifically for building web3 applications on the **Celo blockchain**. It provides a comprehensive set of modular, accessible, and customizable UI components that make it easy to integrate wallet connections, token balances, payments, NFT interactions, and more into your dApp. The library aims to accelerate development, ensure design consistency, and reduce the complexity of handling blockchain-specific UI patterns.
+Composer Kit (@composer-kit/ui) is a **ready-to-use React component library** designed specifically for building web3 applications on the **Celo blockchain**. It provides a comprehensive set of modular, accessible, and customizable UI components that make it easy to integrate wallet connections, token balances, payments, NFT interactions, and more into your dApp. The library aims to accelerate development, ensure design consistency, and reduce the complexity of handling blockchain-specific UI patterns.
 
 **Key Features:**
 - Plug-and-play React components for Celo dApps
