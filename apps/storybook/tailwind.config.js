@@ -4,7 +4,8 @@ export default {
   content: [
     "./stories/**/*.{ts,tsx}",
     "./.storybook/*.{ts,js,jsx,tsx}",
-    "../../packages/composer-kit/**/*.{html,js,ts,jsx,tsx,mdx}",
+    "../../packages/composer-kit/dist/**/*.{html,js,ts,jsx,tsx,mdx}",
+    "../../packages/composer-kit/src/**/*.{html,js,ts,jsx,tsx,mdx}",
   ],
   darkMode: "class",
   safelist: ["dark"],

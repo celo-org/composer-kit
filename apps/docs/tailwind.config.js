@@ -2,55 +2,23 @@
 export default {
   content: [
     "./docs/**/*.{html,js,ts,jsx,tsx,mdx}",
-    "../../packages/composer-kit/**/*.{html,js,ts,jsx,tsx,mdx}",
+    "./node_modules/@composer-kit/ui/dist/**/*.{html,js,ts,jsx,tsx,mdx}",
     "./examples/**/*.{html,js,ts,jsx,tsx,mdx}",
   ],
   darkMode: "class",
   safelist: ["dark"],
   theme: {
-    keyframes: {
-      shimmer: {
-        "0%": { transform: "translateX(-100%)" },
-        "100%": { transform: "translateX(100%)" },
-      },
-      spin: {
-        from: { transform: "rotate(0deg)" },
-        to: { transform: "rotate(360deg)" },
-      },
-      "accordion-down": {
-        from: { height: "0" },
-        to: { height: "var(--radix-accordion-content-height)" },
-      },
-      "accordion-up": {
-        from: { height: "var(--radix-accordion-content-height)" },
-        to: { height: "0" },
-      },
-    },
-    animation: {
-      shimmer: "shimmer 1.5s infinite linear",
-      spin: "spin 1s linear infinite",
-      "accordion-down": "accordion-down 0.2s ease-out",
-      "accordion-up": "accordion-up 0.2s ease-out",
-    },
     extend: {
-      boxShadow: {
-        dropShadow: "0px 1px 0px rgba(0, 0, 0, 0.4)",
-      },
       fontFamily: {
-        "vietnam-pro": "var(--font-vietnam-pro)",
-        inter: "var(--font-inter)",
+        sans: ["var(--font-geist-sans)", ...fontFamily.sans],
+        mono: ["var(--font-geist-mono)", ...fontFamily.mono],
       },
       colors: {
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
-        },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
-        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -58,6 +26,10 @@ export default {
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive) / <alpha-value>)",
+          foreground: "hsl(var(--destructive-foreground) / <alpha-value>)",
         },
         muted: {
           DEFAULT: "hsl(var(--muted))",
@@ -67,18 +39,49 @@ export default {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
         },
-        destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
         },
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+        sidebar: {
+          DEFAULT: "hsl(var(--sidebar-background))",
+          foreground: "hsl(var(--sidebar-foreground))",
+          primary: "hsl(var(--sidebar-primary))",
+          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
+          accent: "hsl(var(--sidebar-accent))",
+          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
+          border: "hsl(var(--sidebar-border))",
+          ring: "hsl(var(--sidebar-ring))",
+        },
       },
       borderRadius: {
+        xl: "calc(var(--radius) + 4px)",
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      keyframes: {
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+        "caret-blink": {
+          "0%,70%,100%": { opacity: "1" },
+          "20%,50%": { opacity: "0" },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+        "caret-blink": "caret-blink 1.25s ease-out infinite",
       },
     },
   },
