@@ -1,0 +1,17 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 GitHub Discussions
+    url: https://github.com/celo-org/composer-kit/discussions
+    about: Ask questions, share ideas, and discuss Composer Kit with the community
+  - name: 📖 Documentation
+    url: https://github.com/celo-org/composer-kit#readme
+    about: Read the comprehensive documentation and examples
+  - name: 🎨 Storybook Examples
+    url: https://github.com/celo-org/composer-kit/tree/main/apps/storybook
+    about: Explore interactive component examples and demos
+  - name: 🌐 Celo Developer Resources
+    url: https://docs.celo.org/
+    about: Learn more about building on the Celo blockchain
+  - name: 🔒 Security Issues
+    url: mailto:security@celo.org
+    about: Report security vulnerabilities privately via email

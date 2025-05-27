@@ -1,0 +1,199 @@
+name: 🚀 Feature Request
+description: Suggest a new feature or enhancement for Composer Kit
+title: "[Feature]: "
+labels: ["enhancement", "needs-triage"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a new feature! Please provide as much detail as possible to help us understand your request.
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Prerequisites
+      description: Please confirm the following before submitting your feature request
+      options:
+        - label: I have searched existing issues to ensure this feature hasn't been requested already
+          required: true
+        - label: I have checked the documentation to confirm this feature doesn't already exist
+          required: true
+        - label: This feature request is related to Composer Kit's core functionality
+          required: true
+
+  - type: dropdown
+    id: feature-type
+    attributes:
+      label: Feature Type
+      description: What type of feature are you requesting?
+      options:
+        - New Component
+        - Component Enhancement
+        - New Hook/Utility
+        - Developer Experience Improvement
+        - Documentation Enhancement
+        - Performance Improvement
+        - Accessibility Improvement
+        - Blockchain Integration
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component-area
+    attributes:
+      label: Component Area (if applicable)
+      description: Which component area does this feature relate to?
+      options:
+        - Address
+        - Balance
+        - Identity
+        - NFT
+        - Payment
+        - Swap
+        - Token Select
+        - Transaction
+        - Wallet
+        - Core/Provider
+        - New Component
+        - Not applicable
+    validations:
+      required: false
+
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: Feature Description
+      description: A clear and concise description of the feature you'd like to see
+      placeholder: Describe the feature...
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem-statement
+    attributes:
+      label: Problem Statement
+      description: What problem does this feature solve? What use case does it address?
+      placeholder: |
+        As a developer building a Celo dApp, I want to...
+        So that I can...
+        Currently, I have to...
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: Proposed Solution
+      description: How would you like this feature to work? Include API design if applicable.
+      placeholder: |
+        I would like to see...
+        The API could look like...
+    validations:
+      required: true
+
+  - type: textarea
+    id: code-example
+    attributes:
+      label: Code Example
+      description: Provide a code example of how you envision using this feature
+      render: tsx
+      placeholder: |
+        import { NewComponent } from "@composer-kit/ui/new-component";
+
+        function MyApp() {
+          return (
+            <NewComponent
+              // proposed props
+            />
+          );
+        }
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: What alternative solutions or workarounds have you considered?
+      placeholder: |
+        I considered...
+        Currently I'm using...
+        But this doesn't work well because...
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How important is this feature to you?
+      options:
+        - Low - Nice to have
+        - Medium - Would improve my workflow
+        - High - Blocking my development
+        - Critical - Essential for my use case
+    validations:
+      required: true
+
+  - type: dropdown
+    id: blockchain-relevance
+    attributes:
+      label: Blockchain Relevance
+      description: Is this feature specific to blockchain/web3 functionality?
+      options:
+        - Yes - Specific to Celo/blockchain functionality
+        - Partially - Could benefit web3 but not exclusive
+        - No - General React component feature
+    validations:
+      required: true
+
+  - type: textarea
+    id: user-stories
+    attributes:
+      label: User Stories
+      description: Provide user stories that would benefit from this feature
+      placeholder: |
+        - As a DeFi developer, I want to...
+        - As a NFT marketplace builder, I need to...
+        - As a wallet integrator, I would like to...
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: What would need to be true for this feature to be considered complete?
+      placeholder: |
+        - [ ] Component renders correctly
+        - [ ] Props are properly typed
+        - [ ] Documentation is updated
+        - [ ] Examples are provided
+        - [ ] Tests are included
+
+  - type: checkboxes
+    id: breaking-changes
+    attributes:
+      label: Breaking Changes
+      description: Would this feature require breaking changes?
+      options:
+        - label: This feature would require breaking changes to existing APIs
+          required: false
+        - label: This feature can be implemented without breaking existing functionality
+          required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Add any other context, screenshots, mockups, or examples about the feature request
+      placeholder: Any additional information that might help...
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      description: Would you be willing to contribute this feature?
+      options:
+        - label: I would be willing to submit a PR to implement this feature
+          required: false
+        - label: I would be willing to help with testing this feature
+          required: false
+        - label: I would be willing to help with documentation for this feature
+          required: false

@@ -1,0 +1,200 @@
+name: ❓ Question / Support
+description: Ask a question or get help using Composer Kit
+title: "[Question]: "
+labels: ["question", "needs-triage"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reaching out! We're here to help you succeed with Composer Kit. Please provide as much detail as possible so we can assist you effectively.
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Prerequisites
+      description: Please confirm the following before asking your question
+      options:
+        - label: I have searched existing issues and discussions for similar questions
+          required: true
+        - label: I have read the documentation and examples
+          required: true
+        - label: This is a question about using Composer Kit (not a bug report or feature request)
+          required: true
+
+  - type: dropdown
+    id: question-type
+    attributes:
+      label: Question Type
+      description: What type of question is this?
+      options:
+        - How to use a component
+        - Integration help
+        - Best practices
+        - Performance optimization
+        - Troubleshooting
+        - Architecture/Design patterns
+        - Blockchain/Web3 specific
+        - Migration help
+        - Configuration help
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component-area
+    attributes:
+      label: Component/Area (if applicable)
+      description: Which component or area is your question about?
+      options:
+        - Address
+        - Balance
+        - Identity
+        - NFT
+        - Payment
+        - Swap
+        - Token Select
+        - Transaction
+        - Wallet
+        - Core/Provider
+        - Installation/Setup
+        - General usage
+        - Not specific to a component
+    validations:
+      required: false
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Your Question
+      description: What would you like to know? Be as specific as possible.
+      placeholder: |
+        I'm trying to...
+        I want to understand how to...
+        What's the best way to...
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Provide context about what you're building and what you're trying to achieve
+      placeholder: |
+        I'm building a DeFi application that...
+        My use case is...
+        I need to...
+
+  - type: textarea
+    id: current-approach
+    attributes:
+      label: What Have You Tried?
+      description: What approaches have you already attempted?
+      placeholder: |
+        I tried...
+        I looked at...
+        I attempted to...
+
+  - type: textarea
+    id: code-sample
+    attributes:
+      label: Current Code (if applicable)
+      description: Share your current code if it helps explain your question
+      render: tsx
+      placeholder: |
+        import { Component } from "@composer-kit/ui/component";
+
+        function MyComponent() {
+          // Your current implementation
+        }
+
+  - type: textarea
+    id: expected-outcome
+    attributes:
+      label: Expected Outcome
+      description: What are you trying to achieve? What should happen?
+      placeholder: |
+        I expect...
+        I want the component to...
+        The ideal behavior would be...
+
+  - type: input
+    id: composer-kit-version
+    attributes:
+      label: Composer Kit Version
+      description: What version of @composer-kit/ui are you using?
+      placeholder: e.g., 1.0.0
+    validations:
+      required: false
+
+  - type: dropdown
+    id: blockchain-network
+    attributes:
+      label: Blockchain Network (if applicable)
+      description: Which blockchain network are you working with?
+      options:
+        - Celo Mainnet
+        - Celo Alfajores Testnet
+        - Other
+        - Not applicable
+    validations:
+      required: false
+
+  - type: input
+    id: react-version
+    attributes:
+      label: React Version (if applicable)
+      description: What version of React are you using?
+      placeholder: e.g., 18.2.0
+    validations:
+      required: false
+
+  - type: dropdown
+    id: experience-level
+    attributes:
+      label: Experience Level
+      description: How would you describe your experience level?
+      options:
+        - Beginner with React
+        - Beginner with Web3/Blockchain
+        - Intermediate with React
+        - Intermediate with Web3/Blockchain
+        - Advanced with React
+        - Advanced with Web3/Blockchain
+        - Expert level
+    validations:
+      required: false
+
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: Urgency
+      description: How urgent is this question for you?
+      options:
+        - Low - Just curious
+        - Medium - Would help my development
+        - High - Blocking my progress
+        - Critical - Production issue
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Any other information that might help us answer your question
+      placeholder: |
+        Additional details...
+        Related resources I've found...
+        Specific constraints I'm working with...
+
+  - type: checkboxes
+    id: follow-up
+    attributes:
+      label: Follow-up
+      description: How would you like to contribute back?
+      options:
+        - label: I'd be willing to help improve documentation based on the answer
+          required: false
+        - label: I'd be willing to share my solution with the community
+          required: false
