@@ -18,5 +18,11 @@
     "turbo": "^2.3.3"
   },
   "packageManager": "pnpm@8.15.6",
-  "name": "composer-kit"
+  "name": "composer-kit",
+  "pnpm": {
+    "overrides": {
+      "@types/react": "^18.3.22",
+      "@types/react-dom": "^18.3.7"
+    }
+  }
 }
