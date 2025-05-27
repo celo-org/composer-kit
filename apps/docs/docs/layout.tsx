@@ -1,6 +1,6 @@
 import { ComposerKitProvider } from "@composer-kit/ui/core";
 import "./styles.css";
 
-export default function Root({ children }: { children: React.ReactNode }) {
+export default function Layout({ children }: any) {
   return <ComposerKitProvider>{children}</ComposerKitProvider>;
 }

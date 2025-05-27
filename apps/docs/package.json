@@ -9,16 +9,17 @@
   },
   "dependencies": {
     "@composer-kit/ui": "workspace:*",
+    "@rainbow-me/rainbowkit": "2.2.4",
     "@types/react": "latest",
     "react": "^18.2.0",
     "react-dom": "18",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "latest",
     "viem": "^2.21.55",
-    "vocs": "latest",
+    "vocs": "^1.0.10",
     "wagmi": "^2.14.4"
   },
   "devDependencies": {
-    "tailwindcss": "^3.4.17"
+    "tailwindcss": "^4.0.7"
   }
 }
