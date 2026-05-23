@@ -545,6 +545,23 @@ export const WalletBasic = () => {
 ```
 ----
 
+## Hooks
+
+Composer Kit provides several React hooks for blockchain interactions:
+
+| Hook | Description |
+|---|---|
+| `useBalance` | Read ERC20 token balance |
+| `useIdentity` | Resolve ENS name and avatar from address |
+| `useSocial` | Fetch social links (GitHub, Twitter, Farcaster) from ENS |
+| `useNFTData` | Fetch NFT metadata and ownership on Celo |
+| `useMintNFT` | Mint NFTs with support for various contract patterns |
+| `useTransactionHandler` | Execute transactions with chain switching and status tracking |
+| `useTransactionLifecycle` | Track transaction lifecycle status |
+| `useConfig` | Access wagmi configuration |
+
+For detailed documentation, parameters, and examples, see [Hooks Reference](./docs/hooks.md).
+
 ## Examples
 
 Examples can be found in the [/docs](/apps/docs/examples/) folder. 
@@ -553,4 +570,5 @@ Examples can be found in the [/docs](/apps/docs/examples/) folder.
 ## Links
 
 - [GitHub Repository](https://github.com/celo-org/composer-kit)
+- [Hooks Reference](./docs/hooks.md)
 
