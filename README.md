@@ -338,6 +338,56 @@ export const PaymentBasic = () => {
 };
 ```
 
+### Example with USDT
+
+USDT on Celo uses 6 decimals. Pass the amount as a human-readable string (e.g. `"1.5"`) — the `Payment` component handles unit conversion internally using the token's decimals. Use the USDT token address, not the cUSD address.
+
+```tsx
+import { useState } from "react";
+import { Payment, PaymentError, PaymentDialog } from "@composer-kit/ui/payment";
+import { celo } from "viem/chains";
+
+// USDT on Celo mainnet — 6 decimals
+const USDT_ADDRESS = "0x48065fbBE25f71C9282ddf5e1cD6D6A887483D5e";
+
+export const PaymentUSDT = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [txHash, setTxHash] = useState("");
+
+  return (
+    <div className="w-full items-center justify-center flex flex-col gap-4">
+      <Payment
+        amount="1.5"
+        //@ts-ignore
+        chain={celo}
+        onSuccess={(hash) => {
+          setTxHash(hash);
+          setIsOpen(false);
+        }}
+        onError={(error) => {
+          console.error("Payment error", error);
+        }}
+        recipientAddress="0x717F8A0b80CbEDe59EcA195F1E3D8E142C84d4d6"
+        tokenAddress={USDT_ADDRESS}
+      >
+        <button
+          className="bg-black font-medium dark:bg-white text-white dark:text-black px-4 py-2 rounded"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          Pay 1.5 USDT
+        </button>
+        <PaymentDialog
+          onOpenChange={() => setIsOpen(!isOpen)}
+          open={isOpen}
+        />
+        <PaymentError />
+      </Payment>
+      {txHash && <p>{txHash}</p>}
+    </div>
+  );
+};
+```
+
 ## Swap
 
 The `Swap` component allows users to exchange tokens seamlessly with a simple interface.
@@ -489,8 +539,11 @@ export const TransactionBasic = () => {
               outputs: [{ name: "", type: "bool" }],
             },
           ],
+          // cUSD on Celo mainnet (18 decimals)
+          // To send 1 cUSD: use 1_000_000_000_000_000_000n (18 decimal places)
+          // To send 1 USDT (0x48065fbBE25f71C9282ddf5e1cD6D6A887483D5e): use 1_000_000n (6 decimal places)
           address: "0x765de816845861e75a25fca122bb6898b8b1282a",
-          args: ["0x717F8A0b80CbEDe59EcA195F1E3D8E142C84d4d6", 1],
+          args: ["0x717F8A0b80CbEDe59EcA195F1E3D8E142C84d4d6", 1_000_000_000_000_000_000n],
           functionName: "transfer",
         }}
       >
