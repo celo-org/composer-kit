@@ -7,6 +7,7 @@ settings:
 overrides:
   '@types/react': ^18.3.22
   '@types/react-dom': ^18.3.7
+  dompurify: 3.4.17
 
 importers:
 
@@ -8851,8 +8852,8 @@ packages:
       esutils: 2.0.3
     dev: true
 
-  /dompurify@3.2.6:
-    resolution: {integrity: sha512-/2GogDQlohXPZe6D6NOgQvXLPSYBqIWMnZ8zzOhn09REE4eyAzb+Hed3jhoM9OkuaJ8P6ZGTTVWQKAi8ieIzfQ==}
+  /dompurify@3.4.17:
+    resolution: {integrity: sha512-B/pSlYVHQ58kqISD/yDjuJ1yfzI34m1gF4lAod2bwSRhiN4K5Cl3H8Af7hqB2PmTL911tdEudnnXn5FnhRoz0w==}
     optionalDependencies:
       '@types/trusted-types': 2.0.7
     dev: false
@@ -11796,7 +11797,7 @@ packages:
       d3-sankey: 0.12.3
       dagre-d3-es: 7.0.11
       dayjs: 1.11.13
-      dompurify: 3.2.6
+      dompurify: 3.4.17
       katex: 0.16.22
       khroma: 2.1.0
       lodash-es: 4.17.21
