@@ -35,7 +35,7 @@ The `NFTMint` component is a part of the Composer Kit UI library for NFTs. It re
   </div>
 </div>
 
-```tsx title="app.tsx"
+```tsx [app.tsx]
 import {
   NFT,
   NFTCard,
@@ -63,3 +63,185 @@ export default function App() {
 ```
 
 :::
+
+---
+
+## useMintNFT Hook
+
+### Overview
+
+`useMintNFT` is a React hook that provides minting functionality for ERC-721 NFTs on the Celo chain. It wraps contract write operations and transaction receipt handling, supporting various minting patterns including standard mint, safeMint, batch minting, and minting with custom token URIs.
+
+### Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `contractAddress` | `string` | The address of the ERC-721 NFT contract to mint from. |
+
+### Return Value
+
+The hook returns an object with the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `mint` | `(params: MintParams) => Promise<void>` | Function to call to initiate minting. |
+| `txHash` | `` `0x${string}` \| null `` | Transaction hash once the mint transaction is submitted. |
+| `isPending` | `boolean` | `true` while a transaction is pending confirmation. |
+| `isLoading` | `boolean` | `true` while the contract write is in progress. |
+| `isSuccess` | `boolean` | `true` if the transaction was confirmed successfully. |
+| `error` | `Error \| null` | Error object if something went wrong. |
+| `receipt` | `any` | Transaction receipt data once confirmed. |
+| `reset` | `() => void` | Function to reset all state. |
+
+### MintParams Interface
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `to` | `string` | Yes | Recipient address that will receive the NFT. |
+| `tokenId` | `bigint` | No | Token ID for contracts that allow specifying the ID. |
+| `tokenURI` | `string` | No | Token URI for contracts that set URI during mint. |
+| `metadata` | `Record<string, any>` | No | Metadata object for the NFT. |
+| `quantity` | `number` | No | Quantity for batch minting multiple NFTs. |
+
+### Usage Example
+
+```tsx [mint-example.tsx]
+import { useMintNFT } from "@composer-kit/ui/nft";
+
+export function MintButton() {
+  const contractAddress = "0xd447209176470be0db276549c7143265a559Fb6b";
+  const { mint, isPending, isSuccess, error, txHash } = useMintNFT(contractAddress);
+
+  const handleMint = async () => {
+    await mint({
+      to: "0xYourWalletAddress...",
+    });
+  };
+
+  if (isPending) return <div>Minting in progress...</div>;
+  if (isSuccess) return <div>NFT minted! Tx: {txHash}</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+  return (
+    <button onClick={handleMint} className="px-4 py-2 bg-blue-500 text-white rounded">
+      Mint NFT
+    </button>
+  );
+}
+```
+
+---
+
+## useNFTData Hook
+
+### Overview
+
+`useNFTData` is a React hook that reads on-chain data and off-chain metadata for a single ERC-721 token on the Celo mainnet. It queries the contract for the token owner and token URI using wagmi's `useReadContract`, then fetches and parses the JSON metadata from the token URI. The hook also handles `ipfs://` URIs by converting them to HTTP gateway URLs.
+
+### Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `contractAddress` | `` `0x${string}` `` | Address of the ERC-721 contract. |
+| `tokenId` | `bigint` | Token identifier. Convert user input to bigint before passing (e.g., `BigInt("2334")`). |
+
+### Return Value
+
+The hook returns an object with the following properties:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `tokenId` | `bigint` | The token ID passed in. |
+| `owner` | `string` | Owner address returned by `ownerOf(tokenId)`. |
+| `tokenURI` | `string` | URI returned by `tokenURI(tokenId)` (may be `ipfs://` or HTTP(S)). |
+| `metadata` | `NFTMetadata \| null` | Parsed JSON fetched from `tokenURI`, or `null` while loading or on failure. |
+| `loading` | `boolean` | `true` while on-chain reads or metadata fetch is in progress. |
+| `error` | `Error \| null` | Error from on-chain reads or metadata fetch. |
+
+### NFTMetadata Interface
+
+The metadata object follows the ERC-721 metadata standard:
+
+```typescript
+interface NFTMetadata {
+  name?: string;
+  description?: string;
+  image?: string;
+  attributes?: Array<{
+    trait_type: string;
+    value: string | number;
+  }>;
+  [key: string]: any;
+}
+```
+
+### Usage Example
+
+```tsx [nft-details.tsx]
+import { useNFTData } from "@composer-kit/ui/nft";
+
+type NftDetailsProps = {
+  contractAddress: `0x${string}`;
+  tokenId: string;
+};
+
+export function NftDetails({ contractAddress, tokenId }: NftDetailsProps) {
+  const numericTokenId = BigInt(tokenId);
+
+  const { owner, tokenURI, metadata, loading, error } = useNFTData(
+    contractAddress,
+    numericTokenId
+  );
+
+  if (loading) return <div>Loading NFT…</div>;
+  if (error) return <div>Failed to load NFT data.</div>;
+  if (!metadata) return <div>No metadata available for this token.</div>;
+
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="text-xs text-muted-foreground">Owner: {owner}</div>
+      <div className="text-xs text-muted-foreground">Token URI: {tokenURI}</div>
+
+      {metadata.image && (
+        <img
+          src={metadata.image}
+          alt={metadata.name ?? `Token #${tokenId}`}
+          className="max-w-xs rounded-lg"
+        />
+      )}
+
+      <div className="text-lg font-semibold">
+        {metadata.name ?? `Token #${tokenId}`}
+      </div>
+
+      {metadata.description && (
+        <p className="text-sm text-muted-foreground">{metadata.description}</p>
+      )}
+
+      {metadata.attributes && (
+        <div className="grid grid-cols-2 gap-2">
+          {metadata.attributes.map((attr, index) => (
+            <div key={index} className="p-2 bg-muted rounded">
+              <div className="text-xs text-muted-foreground">{attr.trait_type}</div>
+              <div className="font-medium">{attr.value}</div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
+---
+
+## Props
+
+### NFTMint Props
+
+The `NFTMint` component inherits context from the parent `NFT` component and does not require any direct props. The minting functionality uses the `contractAddress` and connected wallet from the NFT context.
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `className` | `string` | Optional CSS class for styling the mint button. |
+| `children` | `ReactNode` | Optional custom button content. |
